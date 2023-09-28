@@ -46,3 +46,5 @@ plt.xticks(rotation=45, horizontalalignment='right')
 
 st.pyplot(fig)
 st.write("The plots show that the men's average income are a little higher than that of women in all cities and that the number of men living in the cities are also more than women.")
+st.write(df_t)
+st.write(df_ill)
