@@ -13,8 +13,8 @@ fig = plt.figure()
 
 ax1 = fig.add_subplot(1,2,1) 
 
-df_t.Female.plot(kind='bar', color='pink', ax=ax1, width=0.2, position=1)
-df_t.Male.plot(kind='bar', color='lavender', ax=ax1, width=0.2, position=0)
+df_t.Female.plot(kind='bar', color='pink', ax=ax1, width=0.3, position=1)
+df_t.Male.plot(kind='bar', color='lavender', ax=ax1, width=0.3, position=0)
 
 ax1.set_xlabel('City')
 ax1.set_xticklabels(ax1.get_xticklabels(), rotation=45, ha='right')
@@ -30,8 +30,8 @@ plt.xticks(rotation=45, horizontalalignment='right')
 ax2 = fig.add_subplot(1,2,2) 
 df_ill_gr = df.groupby(['City', 'Gender']).Age.count().unstack(0)
 df_ill = df_ill_gr.transpose()#.reset_index()
-df_ill.Female.plot(kind='bar', color='pink', ax=ax2, width=0.2, position=1)
-df_ill.Male.plot(kind='bar', color='lavender', ax=ax2, width=0.2, position=0)
+df_ill.Female.plot(kind='bar', color='pink', ax=ax2, width=0.3, position=1)
+df_ill.Male.plot(kind='bar', color='lavender', ax=ax2, width=0.3, position=0)
 
 ax2.set_xlabel('City')
 ax2.set_xticklabels(ax2.get_xticklabels(), rotation=45, ha='right')
