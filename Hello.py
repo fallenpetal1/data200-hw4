@@ -1,51 +1,48 @@
-# Copyright (c) Streamlit Inc. (2018-2022) Snowflake Inc. (2022)
-#
-# Licensed under the Apache License, Version 2.0 (the "License");
-# you may not use this file except in compliance with the License.
-# You may obtain a copy of the License at
-#
-#     http://www.apache.org/licenses/LICENSE-2.0
-#
-# Unless required by applicable law or agreed to in writing, software
-# distributed under the License is distributed on an "AS IS" BASIS,
-# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-# See the License for the specific language governing permissions and
-# limitations under the License.
-
 import streamlit as st
-from streamlit.logger import get_logger
+import pandas as pd
+import matplotlib.pyplot as plt
 
-LOGGER = get_logger(__name__)
+df = pd.read_csv("toy_dataset.csv")
 
+#1. Representation of Incomes based on Gender in the various cities
+fig, x = plt.subplots()
+df_income = df.groupby(["City", "Gender"]).Income.mean().unstack(0)
+df_t = df_income.transpose() 
 
-def run():
-    st.set_page_config(
-        page_title="Hello",
-        page_icon="👋",
-    )
+fig = plt.figure() 
 
-    st.write("# Welcome to Streamlit! 👋")
+ax1 = fig.add_subplot(1,2,1) 
 
-    st.sidebar.success("Select a demo above.")
+df_t.Female.plot(kind='bar', color='pink', ax=ax1, width=0.2, position=1)
+df_t.Male.plot(kind='bar', color='lavender', ax=ax1, width=0.2, position=0)
 
-    st.markdown(
-        """
-        Streamlit is an open-source app framework built specifically for
-        Machine Learning and Data Science projects.
-        **👈 Select a demo from the sidebar** to see some examples
-        of what Streamlit can do!
-        ### Want to learn more?
-        - Check out [streamlit.io](https://streamlit.io)
-        - Jump into our [documentation](https://docs.streamlit.io)
-        - Ask a question in our [community
-          forums](https://discuss.streamlit.io)
-        ### See more complex demos
-        - Use a neural net to [analyze the Udacity Self-driving Car Image
-          Dataset](https://github.com/streamlit/demo-self-driving)
-        - Explore a [New York City rideshare dataset](https://github.com/streamlit/demo-uber-nyc-pickups)
-    """
-    )
+ax1.set_xlabel('City')
+ax1.set_xticklabels(ax1.get_xticklabels(), rotation=45, ha='right')
+
+ax1.set_ylabel('Income')
+ax1.legend(title='Gender')
+
+plt.xlabel("City")
+plt.xticks(rotation=45, horizontalalignment='right')
 
 
-if __name__ == "__main__":
-    run()
+#2. Distribution of men and women across cities
+ax2 = fig.add_subplot(1,2,2) 
+df_ill_gr = df.groupby(['City', 'Gender']).Age.count().unstack(0)
+df_ill = df_ill_gr.transpose()#.reset_index()
+df_ill.Female.plot(kind='bar', color='pink', ax=ax2, width=0.2, position=1)
+df_ill.Male.plot(kind='bar', color='lavender', ax=ax2, width=0.2, position=0)
+
+ax2.set_xlabel('City')
+ax2.set_xticklabels(ax2.get_xticklabels(), rotation=45, ha='right')
+
+ax2.set_ylabel('Age')
+#ax2.yaxis.set_label_position("right")
+ax2.yaxis.tick_right()
+ax2.legend(title='Gender')
+
+plt.xlabel('City')
+plt.xticks(rotation=45, horizontalalignment='right')
+
+st.pyplot(fig)
+st.write("The plots show that the men's aerage income are a little higher than that of women in all cities and that the number of men living in the cities are also more than women.")
