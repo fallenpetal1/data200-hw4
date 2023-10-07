@@ -11,7 +11,7 @@ st.header("Toy Dataset")
 st.write("A small sample of the dataset :")
 st.write(df.head())
 st.write(df.shape)
-st.subheader("Population Dataset")
+st.subheader("Distribution of population across cities")
 # Interactive - Diff representations of population in city - pie, line, stem?, 
 chart = st.radio(
     "Choose how you wish to view the population spread across the cities.",
@@ -29,7 +29,7 @@ elif (chart == 'Area plot'):
 
 st.write("The plots show that New York City has the most population (50,307) with San Diego being (4881) the least populated as per the sample")
 ###############
-st.subheader("Income distribution")
+st.subheader("Distribution of incomes across cities")
 import altair as alt
 c = (
    alt.Chart(df)
@@ -41,7 +41,7 @@ st.altair_chart(c, use_container_width=True)
 st.write("The plot shows the datapoints of income in each city. From the representation the ranges of income in each city is evident, with Mountain View having the highest incomes, ranging from around \$95,523 to \$1,77,157. Dallas has the lowest incomes ranging between \$584 to \$91,479")
 
 # Representation of Incomes based on Gender in the various cities
-st.subheader("Representation of Incomes based on Gender in the various cities")
+st.subheader("Representation of gender-wise incomes in various cities")
 fig, x = plt.subplots()
 df_income = df.groupby(["City", "Gender"]).Income.mean().unstack(0)
 df_t = df_income.transpose() 
