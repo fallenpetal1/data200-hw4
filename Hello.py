@@ -7,8 +7,36 @@ import matplotlib.pyplot as plt
 ####
 
 df = pd.read_csv("toy_dataset.csv")
+# Interactive - Diff representations of population in city - pie, line, stem?, 
+chart = st.radio(
+    "Choose how you wish to view the population spread across the cities.",
+    ["Scatter plot", "Line chart", "Area plot"],
+    index=None,
+)
+df_city = df.groupby(['City']).count().reset_index()[['City', 'Number']]
 
-#1. Representation of Incomes based on Gender in the various cities
+if (chart == 'Scatter plot'):
+    st.scatter_chart(data=df_city, x="City", y="Number")
+elif (chart == 'Line chart'):
+    st.line_chart(df_city, x="City", y="Number")
+elif (chart == 'Area plot'):
+    st.area_chart(df_city, x="City", y="Number")
+
+st.write("The plots show that New York City has the most population (50,307) with San Diego being (4881) the least populated as per the sample")
+###############
+st.write("Income distribution")
+import altair as alt
+c = (
+   alt.Chart(df)
+   .mark_circle()
+   .encode(x="City", y="Income")
+)
+
+st.altair_chart(c, use_container_width=True)
+st.write("The plot shows the datapoints of income in each city. From the representation the ranges of income in each city is evident, with Mountain View having the highest incomes, ranging from around \$95,523 to \$1,77,157. Dallas has the lowest incomes ranging between \$584 to \$91,479")
+
+# Representation of Incomes based on Gender in the various cities
+st.write("Representation of Incomes based on Gender in the various cities")
 fig, x = plt.subplots()
 df_income = df.groupby(["City", "Gender"]).Income.mean().unstack(0)
 df_t = df_income.transpose() 
@@ -50,5 +78,7 @@ plt.xticks(rotation=45, horizontalalignment='right')
 
 st.pyplot(fig)
 st.write("The plots show that the men's average income are a little higher than that of women in all cities with Mountainview having the highest avg income and that the number of men living in the cities are also more than women with New York being the most populated.")
-st.write(df_t)
-st.write(df_ill)
+
+
+
+
