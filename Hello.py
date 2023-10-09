@@ -15,7 +15,7 @@ st.subheader("Distribution of population across cities")
 # Interactive - Diff representations of population in city - pie, line, stem?, 
 chart = st.radio(
     "Choose how you wish to view the population spread across the cities.",
-    ["Scatter plot", "Line chart", "Area plot"],
+    ["Scatter plot", "Line chart", "Area plot", 'Pie chart'],
     index=None,
 )
 df_city = df.groupby(['City']).count().reset_index()[['City', 'Number']]
@@ -26,6 +26,13 @@ elif (chart == 'Line chart'):
     st.line_chart(df_city, x="City", y="Number")
 elif (chart == 'Area plot'):
     st.area_chart(df_city, x="City", y="Number")
+elif (chart == 'Pie chart'):
+    fig1, ax1 = plt.subplots()
+    ax1.pie(df_city['Number'], labels=df_city['City'])
+    ax1.axis('equal')  # Equal aspect ratio ensures that pie is drawn as a circle.
+    st.pyplot(fig1)
+
+
 
 st.write("The plots show that New York City has the most population (50,307) with San Diego being (4881) the least populated as per the sample")
 ###############
